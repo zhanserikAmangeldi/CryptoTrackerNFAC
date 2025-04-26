@@ -33,7 +33,7 @@ func scanRowsIntoUser(rows *sql.Rows) (*types.User, error) {
 }
 
 func (s *Store) GetUserByEmail(email string) (*types.User, error) {
-	rows, err := s.database.Query("SELECT * FROM users WHERE email = ?", email)
+	rows, err := s.database.Query("SELECT * FROM users WHERE email = $1", email)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
 }
 
 func (s *Store) GetUserById(id int) (*types.User, error) {
-	rows, err := s.database.Query("SELECT * FROM users WHERE id = ?", id)
+	rows, err := s.database.Query("SELECT * FROM users WHERE id = $1", id)
 	if err != nil {
 		return nil, err
 	}
