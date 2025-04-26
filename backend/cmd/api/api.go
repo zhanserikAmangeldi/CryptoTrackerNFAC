@@ -1,6 +1,7 @@
 package api
 
 import (
+	"crypto-tracker/service/auth"
 	"crypto-tracker/service/user"
 	"database/sql"
 	"log"
@@ -23,6 +24,8 @@ func NewServer(addr string, db *sql.DB) *Server {
 
 func (s *Server) Run() error {
 	router := mux.NewRouter()
+	corsRouter := auth.CORS(router)
+
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 
 	userStore := user.NewStore(s.db)
@@ -31,5 +34,5 @@ func (s *Server) Run() error {
 
 	log.Println("Listening on", s.addr)
 
-	return http.ListenAndServe(s.addr, router)
+	return http.ListenAndServe(s.addr, corsRouter)
 }

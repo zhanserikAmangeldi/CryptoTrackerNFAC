@@ -6,6 +6,7 @@ import (
 	"crypto-tracker/types"
 	"crypto-tracker/utils"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -23,9 +24,8 @@ func NewHandler(store types.UserStore) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/login", h.handleLogin).Methods("POST")
-	router.HandleFunc("/register", h.handleRegister).Methods("POST")
-
+	router.HandleFunc("/login", h.handleLogin).Methods("POST", "OPTIONS")
+	router.HandleFunc("/register", h.handleRegister).Methods("POST", "OPTIONS")
 }
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
@@ -65,6 +65,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
+	log.Print(r.Body)
 	var payload *types.RegisterPayload
 
 	if err := utils.ParseJSON(r, &payload); err != nil {
