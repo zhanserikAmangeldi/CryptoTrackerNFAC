@@ -1,6 +1,8 @@
 package types
 
-import "time"
+import (
+	"time"
+)
 
 type RegisterPayload struct {
 	FirstName string `json:"firstName" validate:"required"`
@@ -27,4 +29,22 @@ type UserStore interface {
 	GetUserByEmail(email string) (*User, error)
 	GetUserById(id int) (*User, error)
 	CreateUser(User) error
+}
+
+// AI CHAT structures
+type ChatRequest struct {
+	Messages     []ChatMessage `json:"messages"`
+	SystemPrompt string        `json:"system_prompt,omitempty"`
+}
+
+type ChatMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
+type ChatResponse struct {
+	Message      string `json:"message"`
+	FinishReason string `json:"finish_reason,omitempty"`
+	UserId       int    `json:"userId"`
+	Error        string `json:"error,omitempty"`
 }

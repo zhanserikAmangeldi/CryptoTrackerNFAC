@@ -1,0 +1,28 @@
+<script>
+    async function testChatEndpoint() {
+        const response = await fetch('http://localhost:8080/api/v1/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVkQXQiOjE3NDYyOTkwNDQsInVzZXJJZCI6IjEifQ.S1gH_84es1Aqvffa1t8UKKquChnZux4KaZ94dO-R9Bc'
+            },
+            body: JSON.stringify({
+                system_prompt: "You should to help the user with questions connected with cypto currency and etc.",
+                messages: [
+                    {role: "user", content: "test"},
+                    {role: "assistant", content: "Hello! It looks like you sent a test message. I'm …lockchain technology. How can I assist you today?"},
+                    {role: "user", content: "test hello"}
+                ]
+            })
+        });
+
+        const data = await response.json();
+        console.log('AI Response:', data.message);
+        console.log('Finish reason:', data.finish_reason);
+        console.log('User ID:', data.userId)
+    }
+
+    testChatEndpoint().catch(error => {
+        console.error('Error calling chat API:', error);
+    });
+</script>

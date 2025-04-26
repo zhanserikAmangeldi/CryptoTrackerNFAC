@@ -8,11 +8,14 @@ import (
 )
 
 type Config struct {
-	PublicHost    string
-	Port          string
-	DatabaseURL   string
-	JWTExpiration int64 // in seconds
-	JWTSecret     string
+	PublicHost          string
+	Port                string
+	DatabaseURL         string
+	JWTExpiration       int64 // in seconds
+	JWTSecret           string
+	AzureOpenAIKey      string
+	AzureOpenAIEndpoint string
+	ModelDeploymentID   string
 }
 
 var (
@@ -23,11 +26,14 @@ func initConfig() *Config {
 	godotenv.Load()
 
 	return &Config{
-		PublicHost:    getEnv("PUBLIC_HOST", "localhost"),
-		Port:          getEnv("PORT", "8080"),
-		DatabaseURL:   getEnv("POSTGRES", "postgres://username:password@localhost:5432/database?sslmode=disable"),
-		JWTExpiration: getEnvAsInt("JWT_Expiration", 3600*24*7),
-		JWTSecret:     getEnv("JWT_Secret", "Secret"),
+		PublicHost:          getEnv("PUBLIC_HOST", "localhost"),
+		Port:                getEnv("PORT", "8080"),
+		DatabaseURL:         getEnv("POSTGRES", "postgres://username:password@localhost:5432/database?sslmode=disable"),
+		JWTExpiration:       getEnvAsInt("JWT_Expiration", 3600*24*7),
+		JWTSecret:           getEnv("JWT_Secret", "Secret"),
+		AzureOpenAIKey:      getEnv("AZURE_OPENAI_KEY", "your azure open api key"),
+		AzureOpenAIEndpoint: getEnv("AZURE_OPENAI_ENDPOINT", "you azure open api endpoint"),
+		ModelDeploymentID:   getEnv("AZURE_OPENAI_MODEL_DEPLOYMENT_ID", "azure open api model deployment id"),
 	}
 }
 
