@@ -5,7 +5,7 @@ import AIChat from './AIChat';
 import ChatIcon from './ChatIcon';
 import CurrencyTable from "./CurrencyTable";
 
-function Home() {
+function    Home() {
     const navigate = useNavigate();
     const [isChatOpen, setIsChatOpen] = useState(false);
 

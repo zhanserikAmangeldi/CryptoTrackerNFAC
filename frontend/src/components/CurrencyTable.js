@@ -2,6 +2,13 @@ import React, {useEffect, useState} from 'react';
 
 function CurrencyTable() {
     const [currencies, setCurrencies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCurrency, setSelectedCurrency] = useState('usd');
+    const availableCurrencies = [
+        { value: 'usd', label: 'USD' },
+        { value: 'eur', label: 'EUR' },
+        { value: 'kzt', label: 'KZT' }
+    ];
 
     const makeAPICall = async (currency) => {
         if (currency == null) {
@@ -22,8 +29,43 @@ function CurrencyTable() {
         makeAPICall();
     }, []);
 
+    const filteredCurrencies = currencies.filter(currency =>
+        currency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        currency.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const handleCurrencyChange = (e) => {
+        const newCurrency = e.target.value;
+        setSelectedCurrency(newCurrency);
+        makeAPICall(newCurrency);
+    };
+
     return (
         <div>
+
+            <input
+                type="text"
+                placeholder="Search by name or symbol..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ marginBottom: '16px', padding: '8px', width: '300px' }}
+            />
+
+            <div className="currency-selector">
+                <label htmlFor="currency-select">Select Fiat Currency: </label>
+                <select
+                    id="currency-select"
+                    value={selectedCurrency}
+                    onChange={handleCurrencyChange}
+                >
+                    {availableCurrencies.map(currency => (
+                        <option key={currency.value} value={currency.value}>
+                            {currency.label}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             <h1>Currency Table</h1>
             <table className="styled-table">
                 <thead>
@@ -38,7 +80,7 @@ function CurrencyTable() {
                 </thead>
                 <tbody>
                 {
-                    currencies.map((currency) => {
+                    filteredCurrencies.map((currency) => {
                         return (
                             <tr key={currency.id}>
                                 <td>
@@ -55,6 +97,26 @@ function CurrencyTable() {
                 }
                 </tbody>
             </table>
+            <style jsx>{`
+                .header-container {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 20px;
+                }
+                
+                .currency-selector {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                select {
+                    padding: 8px;
+                    border-radius: 4px;
+                    border: 1px solid #ccc;
+                }
+            `}</style>
         </div>
     );
 }
