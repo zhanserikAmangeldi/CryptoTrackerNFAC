@@ -41,18 +41,19 @@ func (s *Server) Run() error {
 	chatService, _ := chat.NewHandler(config.Envs, userStore)
 	chatService.RegisterRoutes(subrouter)
 
-	currencyService := currency.NewHandler()
-	currencyService.RegisterRoutes(subrouter)
+	currencyService := currency.NewService(config.Envs)
+	currencyHandler := currency.NewHandler(currencyService)
+	currencyHandler.RegisterRoutes(subrouter)
 
-	s.startBackgroundJobs()
+	s.startBackgroundJobs(currencyService)
 
 	log.Println("Listening on", s.addr)
 
 	return http.ListenAndServe(s.addr, corsRouter)
 }
 
-func (s *Server) startBackgroundJobs() {
-	j := jobs.NewJobs()
+func (s *Server) startBackgroundJobs(currencyService *currency.Service) {
+	j := jobs.NewJobs(currencyService)
 
 	background.Go(j.GetCurrencies(context.Background()))
 }
