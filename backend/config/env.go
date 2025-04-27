@@ -16,6 +16,7 @@ type Config struct {
 	AzureOpenAIKey      string
 	AzureOpenAIEndpoint string
 	ModelDeploymentID   string
+	CoinGeckoKey        string
 }
 
 var (
@@ -34,6 +35,7 @@ func initConfig() *Config {
 		AzureOpenAIKey:      getEnv("AZURE_OPENAI_KEY", "your azure open api key"),
 		AzureOpenAIEndpoint: getEnv("AZURE_OPENAI_ENDPOINT", "you azure open api endpoint"),
 		ModelDeploymentID:   getEnv("AZURE_OPENAI_MODEL_DEPLOYMENT_ID", "azure open api model deployment id"),
+		CoinGeckoKey:        getEnv("COIN_GECKO_KEY", "your coinGecko key"),
 	}
 }
 

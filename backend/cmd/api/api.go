@@ -4,6 +4,7 @@ import (
 	"crypto-tracker/config"
 	"crypto-tracker/middlewares"
 	"crypto-tracker/service/chat"
+	"crypto-tracker/service/currency"
 	"crypto-tracker/service/user"
 	"database/sql"
 	"log"
@@ -36,6 +37,9 @@ func (s *Server) Run() error {
 
 	chatService, _ := chat.NewHandler(config.Envs, userStore)
 	chatService.RegisterRoutes(subrouter)
+
+	currencyService := currency.NewHandler()
+	currencyService.RegisterRoutes(subrouter)
 
 	log.Println("Listening on", s.addr)
 

@@ -3,6 +3,7 @@ import { logout } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import AIChat from './AIChat';
 import ChatIcon from './ChatIcon';
+import CurrencyTable from "./CurrencyTable";
 
 function Home() {
     const navigate = useNavigate();
@@ -21,11 +22,8 @@ function Home() {
         <div className="home-container">
             <h1>Welcome to the CryptoTracker</h1>
 
-            <div className="features-container">
-                <div className="feature-card">
-                    <h2>Crypto Assistant</h2>
-                    <p>Get answers to your crypto currency questions using our AI assistant</p>
-                </div>
+            <div>
+                <CurrencyTable />
             </div>
 
             <button onClick={toggleChat} className="chat-button">

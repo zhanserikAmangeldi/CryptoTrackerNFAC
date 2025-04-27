@@ -74,7 +74,6 @@ function AIChat() {
 
     return (
         <div className="ai-chat-container">
-            {/* Messages area */}
             <div className="messages-container">
                 {messages.length === 0 ? (
                     <div className="empty-chat-message">

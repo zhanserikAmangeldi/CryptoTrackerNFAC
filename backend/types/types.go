@@ -48,3 +48,13 @@ type ChatResponse struct {
 	UserId       int    `json:"userId"`
 	Error        string `json:"error,omitempty"`
 }
+
+type CurrencyResponse struct {
+	Id                string  `json:"id"`
+	Symbol            string  `json:"symbol"`
+	Name              string  `json:"name"`
+	Image             string  `json:"image"`
+	CurrentPrice      float64 `json:"current_price"`
+	MarketCap         int     `json:"market_cap"`
+	PriceChange24Hour float64 `json:"price_change_24h"`
+}
