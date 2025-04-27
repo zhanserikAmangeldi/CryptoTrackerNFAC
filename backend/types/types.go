@@ -58,3 +58,8 @@ type CurrencyResponse struct {
 	MarketCap         int     `json:"market_cap"`
 	PriceChange24Hour float64 `json:"price_change_24h"`
 }
+
+type ExchangeRateResponse struct {
+	Success string             `json:"restring"`
+	Rates   map[string]float64 `json:"conversion_rates"`
+}

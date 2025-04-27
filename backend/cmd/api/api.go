@@ -1,7 +1,10 @@
 package api
 
 import (
+	"context"
+	"crypto-tracker/background"
 	"crypto-tracker/config"
+	"crypto-tracker/jobs"
 	"crypto-tracker/middlewares"
 	"crypto-tracker/service/chat"
 	"crypto-tracker/service/currency"
@@ -41,7 +44,15 @@ func (s *Server) Run() error {
 	currencyService := currency.NewHandler()
 	currencyService.RegisterRoutes(subrouter)
 
+	s.startBackgroundJobs()
+
 	log.Println("Listening on", s.addr)
 
 	return http.ListenAndServe(s.addr, corsRouter)
+}
+
+func (s *Server) startBackgroundJobs() {
+	j := jobs.NewJobs()
+
+	background.Go(j.GetCurrencies(context.Background()))
 }
