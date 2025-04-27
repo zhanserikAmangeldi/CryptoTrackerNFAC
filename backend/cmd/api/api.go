@@ -8,6 +8,7 @@ import (
 	"crypto-tracker/middlewares"
 	"crypto-tracker/service/chat"
 	"crypto-tracker/service/currency"
+	"crypto-tracker/service/deals"
 	"crypto-tracker/service/user"
 	"database/sql"
 	"log"
@@ -45,7 +46,12 @@ func (s *Server) Run() error {
 	currencyHandler := currency.NewHandler(currencyService)
 	currencyHandler.RegisterRoutes(subrouter)
 
-	s.startBackgroundJobs(currencyService)
+	dealStore := deals.NewDealPostgresRepository(s.db)
+	dealService := deals.NewDealService(dealStore)
+	dealRoutes := deals.NewHandler(dealService, userStore)
+	dealRoutes.RegisterRoutes(subrouter)
+
+	//s.startBackgroundJobs(currencyService)
 
 	log.Println("Listening on", s.addr)
 
