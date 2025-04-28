@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"strings"
 )
 
 type Handler struct {
@@ -87,8 +88,18 @@ func (h *Handler) HandleChat(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(types.ChatResponse{Error: err.Error()})
+		statusCode := http.StatusInternalServerError
+		errorMsg := err.Error()
+
+		if strings.Contains(strings.ToLower(errorMsg), "content_filter") {
+			statusCode = http.StatusBadRequest
+			errorMsg = "Be a decent person."
+		}
+
+		w.WriteHeader(statusCode)
+		json.NewEncoder(w).Encode(types.ChatResponse{
+			Error: errorMsg,
+		})
 		return
 	}
 
