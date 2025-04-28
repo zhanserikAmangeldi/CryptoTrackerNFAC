@@ -40,7 +40,7 @@ function AIChat() {
         } catch (error) {
             setMessages(prevMessages => [
                 ...prevMessages,
-                {role: 'system', content: `Error: ${error.message}`}
+                {role: 'system', content: `${error.message}`}
             ]);
         } finally {
             setIsLoading(false);
