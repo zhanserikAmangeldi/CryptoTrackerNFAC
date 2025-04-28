@@ -1,5 +1,7 @@
 # Crypto Tracker by Amangeldi Zhanserik for N!
 
+[http://4.231.56.83/](http://4.231.56.83/)
+
 Crypto Tracker is simple web application for tracking crypto currencies and making portfolio. Users can track prices, search for specific coins, view price charts, and manage their own portfolio to calculate profits and losses. In application we integrated this third-party APIs and SDK:
 1. [CoinGecko API](https://www.google.com/search?client=safari&rls=en&q=GeckoApi&ie=UTF-8&oe=UTF-8) for fetching crypto currencies. 
 2. [ExchangeRate API](https://www.exchangerate-api.com) for checking exchange rate and convert usd to KZT, that not supported by CoinGecko API directly.
@@ -201,5 +203,5 @@ https://youtu.be/2oB15laGM9s
 
 ## THE APPLICATION ON REAL
 
-[http://4.231.56.83/](http://4.231.56.83/deals)
+[http://4.231.56.83/](http://4.231.56.83/)
 
