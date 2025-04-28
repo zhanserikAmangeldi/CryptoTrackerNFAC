@@ -98,7 +98,6 @@ func (s *Service) GetCurrencyData(currencyCode string) ([]types.CurrencyResponse
 			return nil, err
 		}
 
-		// Get the updated data
 		s.mu.RLock()
 		kztData := s.cache["result_kzt"].Data
 		s.mu.RUnlock()

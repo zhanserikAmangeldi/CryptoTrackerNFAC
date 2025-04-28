@@ -1,6 +1,7 @@
 package deals
 
 import (
+	"crypto-tracker/types"
 	"errors"
 	"github.com/go-playground/validator/v10"
 )
@@ -17,7 +18,7 @@ func NewDealService(repo DealRepository) *DealService {
 	}
 }
 
-func (s *DealService) Create(deal *Deal) error {
+func (s *DealService) Create(deal *types.Deal) error {
 	if err := s.validate.Struct(deal); err != nil {
 		return err
 	}
@@ -25,7 +26,7 @@ func (s *DealService) Create(deal *Deal) error {
 	return s.repo.Create(deal)
 }
 
-func (s *DealService) GetByID(id int64) (*Deal, error) {
+func (s *DealService) GetByID(id int64) (*types.Deal, error) {
 	deal, err := s.repo.GetByID(id)
 	if err != nil {
 		return nil, err
@@ -38,7 +39,7 @@ func (s *DealService) GetByID(id int64) (*Deal, error) {
 	return deal, nil
 }
 
-func (s *DealService) GetByUserID(userID string) ([]*Deal, error) {
+func (s *DealService) GetByUserID(userID string) ([]*types.Deal, error) {
 	if userID == "" {
 		return nil, errors.New("user ID is required")
 	}
@@ -46,11 +47,11 @@ func (s *DealService) GetByUserID(userID string) ([]*Deal, error) {
 	return s.repo.GetByUserID(userID)
 }
 
-func (s *DealService) GetAll() ([]*Deal, error) {
+func (s *DealService) GetAll() ([]*types.Deal, error) {
 	return s.repo.GetAll()
 }
 
-func (s *DealService) Update(deal *Deal) error {
+func (s *DealService) Update(deal *types.Deal) error {
 	if err := s.validate.Struct(deal); err != nil {
 		return err
 	}
@@ -79,7 +80,7 @@ func (s *DealService) Delete(id int64) error {
 	return s.repo.Delete(id)
 }
 
-func (s *DealService) GetUserPortfolio(userID string) (map[string]*Portfolio, error) {
+func (s *DealService) GetUserPortfolio(userID string) (map[string]*types.Portfolio, error) {
 	if userID == "" {
 		return nil, errors.New("user ID is required")
 	}
@@ -89,14 +90,14 @@ func (s *DealService) GetUserPortfolio(userID string) (map[string]*Portfolio, er
 		return nil, err
 	}
 
-	portfolio := make(map[string]*Portfolio)
+	portfolio := make(map[string]*types.Portfolio)
 
 	for _, deal := range deals {
 		currencyID := deal.CurrencyId
 		cost := deal.Count * deal.Price
 
 		if _, exists := portfolio[currencyID]; !exists {
-			portfolio[currencyID] = &Portfolio{
+			portfolio[currencyID] = &types.Portfolio{
 				CurrencyID: currencyID,
 				TotalCount: 0,
 				AvgPrice:   0,

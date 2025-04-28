@@ -63,3 +63,20 @@ type ExchangeRateResponse struct {
 	Success string             `json:"restring"`
 	Rates   map[string]float64 `json:"conversion_rates"`
 }
+
+type Deal struct {
+	Id         int64     `json:"id"`
+	UserId     int64     `json:"user_id" validate:"required"`
+	CurrencyId string    `json:"currency_id" validate:"required"`
+	Count      float64   `json:"count" validate:"required"`
+	Price      float64   `json:"price" validate:"required"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
+
+type Portfolio struct {
+	CurrencyID string  `json:"currency_id"`
+	TotalCount float64 `json:"total_count"`
+	AvgPrice   float64 `json:"avg_price"`
+	TotalCost  float64 `json:"total_cost"`
+}

@@ -2,6 +2,7 @@ package deals
 
 import (
 	"crypto-tracker/service/user"
+	"crypto-tracker/types"
 	"crypto-tracker/utils"
 	"encoding/json"
 	"errors"
@@ -13,10 +14,10 @@ import (
 
 type Handler struct {
 	service *DealService
-	store   *user.Store
+	store   *user.Repository
 }
 
-func NewHandler(service *DealService, store *user.Store) *Handler {
+func NewHandler(service *DealService, store *user.Repository) *Handler {
 	return &Handler{
 		service: service,
 		store:   store,
@@ -34,7 +35,7 @@ func (h *Handler) RegisterRoutes(router *mux.Router) {
 }
 
 func (h *Handler) CreateDeal(w http.ResponseWriter, r *http.Request) {
-	var deal *Deal
+	var deal *types.Deal
 
 	err := utils.ParseJSON(r, &deal)
 	if err != nil {
@@ -110,7 +111,7 @@ func (h *Handler) UpdateDeal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var deal Deal
+	var deal types.Deal
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&deal); err != nil {

@@ -1,34 +1,18 @@
 package deals
 
 import (
+	"crypto-tracker/types"
 	"database/sql"
 	"errors"
 	"time"
 )
 
-type Deal struct {
-	Id         int64     `json:"id"`
-	UserId     int64     `json:"user_id" validate:"required"`
-	CurrencyId string    `json:"currency_id" validate:"required"`
-	Count      float64   `json:"count" validate:"required"`
-	Price      float64   `json:"price" validate:"required"`
-	CreatedAt  time.Time `json:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at"`
-}
-
-type Portfolio struct {
-	CurrencyID string  `json:"currency_id"`
-	TotalCount float64 `json:"total_count"`
-	AvgPrice   float64 `json:"avg_price"`
-	TotalCost  float64 `json:"total_cost"`
-}
-
 type DealRepository interface {
-	Create(deal *Deal) error
-	GetByID(id int64) (*Deal, error)
-	GetByUserID(userId string) ([]*Deal, error)
-	GetAll() ([]*Deal, error)
-	Update(deal *Deal) error
+	Create(deal *types.Deal) error
+	GetByID(id int64) (*types.Deal, error)
+	GetByUserID(userId string) ([]*types.Deal, error)
+	GetAll() ([]*types.Deal, error)
+	Update(deal *types.Deal) error
 	Delete(id int64) error
 }
 
@@ -40,7 +24,7 @@ func NewRepository(db *sql.DB) *Repository {
 	return &Repository{DB: db}
 }
 
-func (r *Repository) GetAll() ([]*Deal, error) {
+func (r *Repository) GetAll() ([]*types.Deal, error) {
 	query := `
 		SELECT id, user_id, currency_id, count, price, created_at, updated_at
 		FROM deals
@@ -53,10 +37,10 @@ func (r *Repository) GetAll() ([]*Deal, error) {
 	}
 	defer rows.Close()
 
-	var deals []*Deal
+	var deals []*types.Deal
 
 	for rows.Next() {
-		var deal Deal
+		var deal types.Deal
 		var createdAt, updatedAt time.Time
 
 		err := rows.Scan(
@@ -86,7 +70,7 @@ func (r *Repository) GetAll() ([]*Deal, error) {
 	return deals, nil
 }
 
-func (r *Repository) Create(deal *Deal) error {
+func (r *Repository) Create(deal *types.Deal) error {
 	query := `
 		INSERT INTO deals (user_id, currency_id, count, price, created_at, updated_at)
 		VALUES ($1, $2, $3, $4, NOW(), NOW())
@@ -108,14 +92,14 @@ func (r *Repository) Create(deal *Deal) error {
 	return nil
 }
 
-func (r *Repository) GetByID(id int64) (*Deal, error) {
+func (r *Repository) GetByID(id int64) (*types.Deal, error) {
 	query := `
 		SELECT id, user_id, currency_id, count, price, created_at, updated_at
 		FROM deals
 		WHERE id = $1
 	`
 
-	var deal Deal
+	var deal types.Deal
 	var createdAt, updatedAt time.Time
 
 	err := r.DB.QueryRow(query, id).Scan(
@@ -141,7 +125,7 @@ func (r *Repository) GetByID(id int64) (*Deal, error) {
 	return &deal, nil
 }
 
-func (r *Repository) GetByUserID(userID string) ([]*Deal, error) {
+func (r *Repository) GetByUserID(userID string) ([]*types.Deal, error) {
 	query := `
 		SELECT id, user_id, currency_id, count, price, created_at, updated_at
 		FROM deals
@@ -155,10 +139,10 @@ func (r *Repository) GetByUserID(userID string) ([]*Deal, error) {
 	}
 	defer rows.Close()
 
-	var deals []*Deal
+	var deals []*types.Deal
 
 	for rows.Next() {
-		var deal Deal
+		var deal types.Deal
 		var createdAt, updatedAt time.Time
 
 		err := rows.Scan(
@@ -188,7 +172,7 @@ func (r *Repository) GetByUserID(userID string) ([]*Deal, error) {
 	return deals, nil
 }
 
-func (r *Repository) Update(deal *Deal) error {
+func (r *Repository) Update(deal *types.Deal) error {
 	query := `
 		UPDATE deals
 		SET user_id = $1, currency_id = $2, count = $3, price = $4, updated_at = NOW()
