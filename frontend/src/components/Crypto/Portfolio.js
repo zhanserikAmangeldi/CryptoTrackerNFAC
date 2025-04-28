@@ -91,6 +91,7 @@ function Portfolio() {
                     <table className="styled-table">
                         <thead>
                         <tr>
+                            <th>Logo</th>
                             <th>Asset</th>
                             <th>Holdings</th>
                             <th>Avg. Buy Price</th>
@@ -110,7 +111,7 @@ function Portfolio() {
 
                             return (
                                 <tr key={cryptoId}>
-                                    <td className="asset-name">
+                                    <td>
                                         {currencyData[cryptoId] && currencyData[cryptoId].image && (
                                             <img
                                                 src={currencyData[cryptoId].image}
@@ -120,6 +121,8 @@ function Portfolio() {
                                                 height="24"
                                             />
                                         )}
+                                    </td>
+                                    <td>
                                         {cryptoName}
                                     </td>
                                     <td>{data.total_count.toFixed(3)}</td>

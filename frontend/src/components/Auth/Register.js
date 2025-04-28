@@ -65,6 +65,7 @@ function Register() {
                     <div className="form-group">
                         <label htmlFor="firstName">First Name</label>
                         <input
+                            className={"input-auth"}
                             type="text"
                             id="firstName"
                             name="firstName"
@@ -76,6 +77,7 @@ function Register() {
                     <div className="form-group">
                         <label htmlFor="lastName">Last Name</label>
                         <input
+                            className={"input-auth"}
                             type="text"
                             id="lastName"
                             name="lastName"
@@ -87,6 +89,7 @@ function Register() {
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
+                            className={"input-auth"}
                             type="email"
                             id="email"
                             name="email"
@@ -98,6 +101,7 @@ function Register() {
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input
+                            className={"input-auth"}
                             type="password"
                             id="password"
                             name="password"
@@ -109,6 +113,7 @@ function Register() {
                     <div className="form-group">
                         <label htmlFor="confirmPassword">Confirm Password</label>
                         <input
+                            className={"input-auth"}
                             type="password"
                             id="confirmPassword"
                             name="confirmPassword"

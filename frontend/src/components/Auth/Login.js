@@ -43,6 +43,7 @@ function Login() {
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
+                            className={"input-auth"}
                             type="email"
                             id="email"
                             name="email"
@@ -54,6 +55,7 @@ function Login() {
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
                         <input
+                            className={"input-auth"}
                             type="password"
                             id="password"
                             name="password"

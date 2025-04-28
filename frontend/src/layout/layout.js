@@ -34,6 +34,7 @@ function Layout() {
                             >
                                 Portfolio
                             </Link>
+
                             <Link
                                 to="/deals"
                                 className={`nav-link ${location.pathname === '/deals' ? 'active' : ''}`}

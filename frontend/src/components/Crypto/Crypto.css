@@ -8,11 +8,6 @@
 }
 
 .portfolio-summary-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 30px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -37,43 +32,11 @@
     color: #333;
 }
 
-.profit {
-    color: #4caf50;
-}
-
-.loss {
-    color: #f44336;
-}
-
-.manage-deals-btn {
-    background-color: #4361ee;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 15px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.manage-deals-btn:hover {
-    background-color: #3a56d4;
-}
-
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     margin-top: 20px;
-}
-
-.portfolio-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .portfolio-card:hover {
@@ -140,14 +103,6 @@
     padding: 50px 0;
 }
 
-.empty-portfolio {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-top: 20px;
-}
-
 .portfolio-summary {
     margin-bottom: 30px;
 }
@@ -158,28 +113,7 @@
     margin-bottom: 20px;
 }
 
-.add-deal-btn {
-    background-color: #4361ee;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 15px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    transition: background-color 0.3s;
-}
-
-.add-deal-btn:hover {
-    background-color: #3a56d4;
-}
-
 .deals-table-container {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -221,28 +155,6 @@
     font-size: 12px;
     color: #666;
     margin-top: 5px;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 500px;
-    overflow: hidden;
 }
 
 .modal-header {
@@ -299,53 +211,6 @@
     background-color: #f5f5f5;
     color: #333;
     border: 1px solid #ddd;
-}
-
-.submit-btn {
-    background-color: #4361ee;
-    color: white;
-}
-
-.nav-links {
-    display: flex;
-    margin-right: 20px;
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    margin-right: 15px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-link.active {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-@media (max-width: 768px) {
-    .portfolio-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-summary-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .summary-item {
-        width: 100%;
-        margin-bottom: 15px;
-    }
-
-    .deals-table-container {
-        overflow-x: auto;
-    }
 }
 
 /* Toast Notification */
@@ -434,44 +299,9 @@
     gap: 12px;
 }
 
-.danger-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.danger-btn:hover {
-    background-color: #d32f2f;
-}
-
-.danger-btn:disabled {
-    background-color: #ffcdd2;
-    cursor: not-allowed;
-}
-
 .actions-cell {
     white-space: nowrap;
     text-align: center;
-}
-
-.delete-btn {
-    background-color: transparent;
-    color: #f44336;
-    border: 1px solid #f44336;
-    border-radius: 4px;
-    padding: 4px 8px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: all 0.2s;
-}
-
-.delete-btn:hover {
-    background-color: #f44336;
-    color: white;
 }
 
 .update-indicator {
@@ -482,4 +312,80 @@
     margin-bottom: 10px;
     font-size: 12px;
     color: #666;
+}
+
+.currency-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.currency-table-header input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.currency-table-header input[type="text"]:focus {
+    outline: none;
+    border-color: #4361ee;
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+}
+
+.search-container input[type="text"] {
+    padding-left: 2.5rem;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.currency-selector {
+    min-width: 120px;
+}
+
+@media (max-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-summary-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .summary-item {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .deals-table-container {
+        overflow-x: auto;
+    }
+
+    .currency-table-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .currency-table-header input[type="text"],
+    .currency-selector {
+        width: 100%;
+    }
 }

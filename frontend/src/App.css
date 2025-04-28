@@ -1,6 +1,11 @@
 @import 'layout/Layout.css';
 @import 'components/Auth/Auth.css';
 
+input, select {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -28,7 +33,8 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-.currency-section {
+/* Card Styles - Used across multiple components */
+.card, .currency-section, .styled-table, .portfolio-card, .auth-form-card {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -42,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 1.5rem 0;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
 }
 
 .styled-table thead tr {
@@ -54,6 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
+    text-align: center;
 }
 
 .styled-table tbody tr {
@@ -70,6 +77,8 @@ h1, h2, h3, h4, h5, h6 {
 
 input[type="text"],
 input[type="search"],
+input[type="password"],
+input[type="email"],
 select {
     padding: 0.75rem;
     border: 1px solid #ddd;
@@ -79,13 +88,19 @@ select {
 
 input[type="text"]:focus,
 input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
 select:focus {
     outline: none;
     border-color: #4361ee;
     box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
 }
 
-button {
+.input-auth {
+    width: 100%;
+}
+
+button, .btn {
     padding: 0.75rem 1.5rem;
     background-color: #4361ee;
     color: white;
@@ -96,13 +111,55 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
+button:hover, .btn:hover {
     background-color: #3a56d4;
 }
 
-button:disabled {
+button:disabled, .btn:disabled {
     background-color: #a5b4fc;
     cursor: not-allowed;
+}
+
+.profit {
+    color: #4caf50;
+}
+
+.loss {
+    color: #f44336;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
 }
 
 @media (max-width: 768px) {

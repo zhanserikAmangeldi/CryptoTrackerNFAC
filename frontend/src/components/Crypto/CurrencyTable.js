@@ -66,7 +66,6 @@ function CurrencyTable() {
                     placeholder="Search by name or symbol..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-input"
                 />
 
                 <CurrencySelector
@@ -105,8 +104,9 @@ function CurrencyTable() {
                             <td>{currency.symbol.toUpperCase()}</td>
                             <td>{formatCurrency(currency.current_price, selectedCurrency)}</td>
                             <td>{formatCurrency(currency.market_cap, selectedCurrency)}</td>
-                            <td className={currency.price_change_24h >= 0 ? "positive-change" : "negative-change"}>
-                                {currency.price_change_24h.toFixed(2)}%
+                            <td className={currency.price_change_24h >= 0 ? "profit" : "loss"}>
+                                {formatCurrency(currency.price_change_24h, selectedCurrency)}
+                                <span className="percentage">({(currency.current_price/(currency.current_price + currency.price_change_24h)).toFixed(2)}%)</span>
                             </td>
                         </tr>
                     ))
