@@ -473,3 +473,13 @@
     background-color: #f44336;
     color: white;
 }
+
+.update-indicator {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #666;
+}

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { fetchCurrencies } from '../../services/currencyService';
 import { LoadingSpinner, ErrorMessage, CurrencySelector } from '../shared/components';
 import { formatCurrency } from '../../services/currencyService';
+import useInterval from '../../hooks/useInterval';
+import {UPDATE_INTERVAL} from "../../utils/Constants";
 
 function CurrencyTable() {
     const [currencies, setCurrencies] = useState([]);
@@ -9,10 +11,16 @@ function CurrencyTable() {
     const [selectedCurrency, setSelectedCurrency] = useState('usd');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const loadCurrencies = useCallback(async () => {
         try {
-            setLoading(true);
+            if (currencies.length === 0) {
+                setLoading(true);
+            } else {
+                setIsUpdating(true);
+            }
+
             setError(null);
             const data = await fetchCurrencies(selectedCurrency);
             setCurrencies(data);
@@ -21,12 +29,17 @@ function CurrencyTable() {
             console.error(err);
         } finally {
             setLoading(false);
+            setIsUpdating(false);
         }
-    }, [selectedCurrency]);
+    }, [selectedCurrency, currencies.length]);
 
     useEffect(() => {
         loadCurrencies();
     }, [loadCurrencies]);
+
+    useInterval(() => {
+        loadCurrencies();
+    }, UPDATE_INTERVAL);
 
     const filteredCurrencies = currencies.filter(currency =>
         currency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -62,6 +75,8 @@ function CurrencyTable() {
                 />
             </div>
 
+            {isUpdating && <div className="update-indicator">Updating prices...</div>}
+
             <table className="styled-table">
                 <thead>
                 <tr>
@@ -90,9 +105,8 @@ function CurrencyTable() {
                             <td>{currency.symbol.toUpperCase()}</td>
                             <td>{formatCurrency(currency.current_price, selectedCurrency)}</td>
                             <td>{formatCurrency(currency.market_cap, selectedCurrency)}</td>
-                            <td className={currency.price_change_24h >= 0 ? "profit" : "loss"}>
-                                {formatCurrency(currency.price_change_24h, selectedCurrency)}
-                                <span className="percentage">({(currency.current_price/(currency.current_price + currency.price_change_24h)).toFixed(2)}%)</span>
+                            <td className={currency.price_change_24h >= 0 ? "positive-change" : "negative-change"}>
+                                {currency.price_change_24h.toFixed(2)}%
                             </td>
                         </tr>
                     ))
