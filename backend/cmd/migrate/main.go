@@ -27,6 +27,7 @@ func main() {
 		"postgres",
 		driver,
 	)
+	
 	if err != nil {
 		log.Fatal(err)
 	}
