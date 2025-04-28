@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getAuthToken } from '../services/authService';
 
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+const CHAT_URL = BASE_URL + "/chat"
+
 function AIChat() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -19,25 +22,29 @@ function AIChat() {
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
 
         const userMessage = { role: 'user', content: input };
-        setMessages((prevMessages) => [...prevMessages, userMessage]);
         setInput('');
         setIsLoading(true);
 
+        setMessages((prevMessages) => {
+            const updatedMessages = [...prevMessages, userMessage];
+
+            sendMessageToAPI(updatedMessages);
+
+            return updatedMessages;
+        });
+    };
+
+    const sendMessageToAPI = async (allMessages) => {
         try {
             const authToken = getAuthToken();
-
-            const allMessages = [
-                ...messages,
-                userMessage
-            ];
-
-            const response = await fetch('http://localhost:8080/api/v1/chat', {
+            if (!authToken) throw new Error('No auth token available');
+            console.log(authToken)
+            const response = await fetch(CHAT_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

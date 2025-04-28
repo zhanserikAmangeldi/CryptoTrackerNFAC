@@ -4,7 +4,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
 
-ARG REACT_APP_API_URL=http://backend:8080/api/v1
+ARG REACT_APP_API_URL=/api/v1
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
