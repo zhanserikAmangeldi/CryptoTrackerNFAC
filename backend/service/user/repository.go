@@ -6,12 +6,12 @@ import (
 	"fmt"
 )
 
-type Store struct {
+type Repository struct {
 	database *sql.DB
 }
 
-func NewStore(db *sql.DB) *Store {
-	return &Store{database: db}
+func NewRepository(db *sql.DB) *Repository {
+	return &Repository{database: db}
 }
 
 func scanRowsIntoUser(rows *sql.Rows) (*types.User, error) {
@@ -32,7 +32,7 @@ func scanRowsIntoUser(rows *sql.Rows) (*types.User, error) {
 	return user, nil
 }
 
-func (s *Store) GetUserByEmail(email string) (*types.User, error) {
+func (s *Repository) GetUserByEmail(email string) (*types.User, error) {
 	rows, err := s.database.Query("SELECT * FROM users WHERE email = $1", email)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (s *Store) GetUserByEmail(email string) (*types.User, error) {
 	return user, nil
 }
 
-func (s *Store) GetUserById(id int) (*types.User, error) {
+func (s *Repository) GetUserById(id int) (*types.User, error) {
 	rows, err := s.database.Query("SELECT * FROM users WHERE id = $1", id)
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (s *Store) GetUserById(id int) (*types.User, error) {
 	return user, nil
 }
 
-func (s *Store) CreateUser(user types.User) error {
+func (s *Repository) CreateUser(user types.User) error {
 	_, err := s.database.Exec(
 		"INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4);",
 		user.FirstName, user.LastName, user.Email, user.Password,

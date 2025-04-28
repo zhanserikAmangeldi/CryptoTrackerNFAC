@@ -32,15 +32,15 @@ type DealRepository interface {
 	Delete(id int64) error
 }
 
-type DealPostgresRepository struct {
+type Repository struct {
 	DB *sql.DB
 }
 
-func NewDealPostgresRepository(db *sql.DB) *DealPostgresRepository {
-	return &DealPostgresRepository{DB: db}
+func NewRepository(db *sql.DB) *Repository {
+	return &Repository{DB: db}
 }
 
-func (r *DealPostgresRepository) GetAll() ([]*Deal, error) {
+func (r *Repository) GetAll() ([]*Deal, error) {
 	query := `
 		SELECT id, user_id, currency_id, count, price, created_at, updated_at
 		FROM deals
@@ -86,7 +86,7 @@ func (r *DealPostgresRepository) GetAll() ([]*Deal, error) {
 	return deals, nil
 }
 
-func (r *DealPostgresRepository) Create(deal *Deal) error {
+func (r *Repository) Create(deal *Deal) error {
 	query := `
 		INSERT INTO deals (user_id, currency_id, count, price, created_at, updated_at)
 		VALUES ($1, $2, $3, $4, NOW(), NOW())
@@ -108,7 +108,7 @@ func (r *DealPostgresRepository) Create(deal *Deal) error {
 	return nil
 }
 
-func (r *DealPostgresRepository) GetByID(id int64) (*Deal, error) {
+func (r *Repository) GetByID(id int64) (*Deal, error) {
 	query := `
 		SELECT id, user_id, currency_id, count, price, created_at, updated_at
 		FROM deals
@@ -141,7 +141,7 @@ func (r *DealPostgresRepository) GetByID(id int64) (*Deal, error) {
 	return &deal, nil
 }
 
-func (r *DealPostgresRepository) GetByUserID(userID string) ([]*Deal, error) {
+func (r *Repository) GetByUserID(userID string) ([]*Deal, error) {
 	query := `
 		SELECT id, user_id, currency_id, count, price, created_at, updated_at
 		FROM deals
@@ -188,7 +188,7 @@ func (r *DealPostgresRepository) GetByUserID(userID string) ([]*Deal, error) {
 	return deals, nil
 }
 
-func (r *DealPostgresRepository) Update(deal *Deal) error {
+func (r *Repository) Update(deal *Deal) error {
 	query := `
 		UPDATE deals
 		SET user_id = $1, currency_id = $2, count = $3, price = $4, updated_at = NOW()
@@ -219,7 +219,7 @@ func (r *DealPostgresRepository) Update(deal *Deal) error {
 	return nil
 }
 
-func (r *DealPostgresRepository) Delete(id int64) error {
+func (r *Repository) Delete(id int64) error {
 	query := `DELETE FROM deals WHERE id = $1`
 
 	result, err := r.DB.Exec(query, id)

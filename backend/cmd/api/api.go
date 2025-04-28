@@ -36,7 +36,7 @@ func (s *Server) Run() error {
 
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 
-	userStore := user.NewStore(s.db)
+	userStore := user.NewRepository(s.db)
 	userService := user.NewHandler(userStore)
 	userService.RegisterRoutes(subrouter)
 
@@ -47,7 +47,7 @@ func (s *Server) Run() error {
 	currencyHandler := currency.NewHandler(currencyService)
 	currencyHandler.RegisterRoutes(subrouter)
 
-	dealStore := deals.NewDealPostgresRepository(s.db)
+	dealStore := deals.NewRepository(s.db)
 	dealService := deals.NewDealService(dealStore)
 
 	dealSubrouter := subrouter.PathPrefix("/deals").Subrouter()
