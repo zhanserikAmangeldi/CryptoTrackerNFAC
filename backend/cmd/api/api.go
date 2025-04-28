@@ -6,6 +6,7 @@ import (
 	"crypto-tracker/config"
 	"crypto-tracker/jobs"
 	"crypto-tracker/middlewares"
+	"crypto-tracker/service/auth"
 	"crypto-tracker/service/chat"
 	"crypto-tracker/service/currency"
 	"crypto-tracker/service/deals"
@@ -48,10 +49,17 @@ func (s *Server) Run() error {
 
 	dealStore := deals.NewDealPostgresRepository(s.db)
 	dealService := deals.NewDealService(dealStore)
-	dealRoutes := deals.NewHandler(dealService, userStore)
-	dealRoutes.RegisterRoutes(subrouter)
 
-	//s.startBackgroundJobs(currencyService)
+	dealSubrouter := subrouter.PathPrefix("/deals").Subrouter()
+
+	dealSubrouter.Use(func(next http.Handler) http.Handler {
+		return auth.AuthMiddleware(next.ServeHTTP, userStore)
+	})
+
+	dealRoutes := deals.NewHandler(dealService, userStore)
+	dealRoutes.RegisterRoutes(dealSubrouter)
+
+	s.startBackgroundJobs(currencyService)
 
 	log.Println("Listening on", s.addr)
 

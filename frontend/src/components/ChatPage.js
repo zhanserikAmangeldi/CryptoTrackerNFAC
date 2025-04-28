@@ -8,7 +8,7 @@ function ChatPage() {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/');
     };
 
     return (

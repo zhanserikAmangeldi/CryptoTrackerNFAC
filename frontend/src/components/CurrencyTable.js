@@ -1,33 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchCurrencies } from '../services/currencyService';
 
 function CurrencyTable() {
     const [currencies, setCurrencies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCurrency, setSelectedCurrency] = useState('usd');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const availableCurrencies = [
         { value: 'usd', label: 'USD' },
         { value: 'eur', label: 'EUR' },
         { value: 'kzt', label: 'KZT' }
     ];
 
-    const makeAPICall = async (currency) => {
-        if (currency == null) {
-            currency = 'usd'
-        }
-
-        const url = 'http://localhost:8080/api/v1/currency'.concat('?currency=', currency);
-        console.log(url);
-        var response = await fetch(url)
-
-        const data = await response.json();
-
-        setCurrencies(data);
-    }
-
-    // TODO: Change in the future to react query
     useEffect(() => {
-        makeAPICall();
-    }, []);
+        const loadCurrencies = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchCurrencies(selectedCurrency);
+                setCurrencies(data);
+            } catch (err) {
+                setError(`Failed to load currencies: ${err.message}`);
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadCurrencies();
+    }, [selectedCurrency]);
 
     const filteredCurrencies = currencies.filter(currency =>
         currency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -37,12 +39,18 @@ function CurrencyTable() {
     const handleCurrencyChange = (e) => {
         const newCurrency = e.target.value;
         setSelectedCurrency(newCurrency);
-        makeAPICall(newCurrency);
     };
+
+    if (loading && currencies.length === 0) {
+        return <div className="currencies-loading">Loading cryptocurrency data...</div>;
+    }
+
+    if (error) {
+        return <div className="currencies-error">{error}</div>;
+    }
 
     return (
         <div>
-
             <input
                 type="text"
                 placeholder="Search by name or symbol..."
@@ -66,7 +74,6 @@ function CurrencyTable() {
                 </select>
             </div>
 
-            <h1>Currency Table</h1>
             <table className="styled-table">
                 <thead>
                 <tr>
@@ -88,9 +95,9 @@ function CurrencyTable() {
                                 </td>
                                 <td>{currency.name}</td>
                                 <td>{currency.symbol}</td>
-                                <td>{currency.current_price}</td>
+                                <td>{currency.current_price.toFixed(2)}</td>
                                 <td>{currency.market_cap}</td>
-                                <td>{currency.price_change_24h.toFixed(3)}</td>
+                                <td>{currency.price_change_24h.toFixed(2)}</td>
                             </tr>
                         )
                     })
@@ -104,17 +111,31 @@ function CurrencyTable() {
                     align-items: center;
                     margin-bottom: 20px;
                 }
-                
+
                 .currency-selector {
                     display: flex;
                     align-items: center;
                     gap: 10px;
                 }
-                
+
                 select {
                     padding: 8px;
                     border-radius: 4px;
                     border: 1px solid #ccc;
+                }
+
+                .currencies-loading,
+                .currencies-error {
+                    text-align: center;
+                    padding: 2rem;
+                    background-color: #f9f9f9;
+                    border-radius: 8px;
+                    margin: 1rem 0;
+                }
+
+                .currencies-error {
+                    color: #d32f2f;
+                    background-color: #ffebee;
                 }
             `}</style>
         </div>

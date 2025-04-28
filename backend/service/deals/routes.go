@@ -24,11 +24,11 @@ func NewHandler(service *DealService, store *user.Store) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/deals", h.CreateDeal).Methods("POST")
-	router.HandleFunc("/deals", h.GetAllDeals).Methods("GET")
-	router.HandleFunc("/deals/{id:[0-9]+}", h.GetDeal).Methods("GET")
-	router.HandleFunc("/deals/{id:[0-9]+}", h.UpdateDeal).Methods("PUT")
-	router.HandleFunc("/deals/{id:[0-9]+}", h.DeleteDeal).Methods("DELETE")
+	router.HandleFunc("/", h.CreateDeal).Methods("POST")
+	router.HandleFunc("/", h.GetAllDeals).Methods("GET")
+	router.HandleFunc("/{id:[0-9]+}", h.GetDeal).Methods("GET")
+	router.HandleFunc("/{id:[0-9]+}", h.UpdateDeal).Methods("PUT")
+	router.HandleFunc("/{id:[0-9]+}", h.DeleteDeal).Methods("DELETE")
 	router.HandleFunc("/users/{user_id}/deals", h.GetUserDeals).Methods("GET")
 	router.HandleFunc("/users/{user_id}/portfolio", h.GetUserPortfolio).Methods("GET")
 }
@@ -44,9 +44,7 @@ func (h *Handler) CreateDeal(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	vars := mux.Vars(r)
-	id, _ := strconv.ParseInt(vars["id"], 10, 64)
-	_, err = h.store.GetUserById(int(id))
+	_, err = h.store.GetUserById(int(deal.UserId))
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
