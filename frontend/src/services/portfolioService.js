@@ -1,6 +1,7 @@
 import { getAuthToken } from './authService';
 
-const BASE_URL = "http://localhost:8080/api/v1/deals";
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+const DEAL_URL = `${BASE_URL}/deals`;
 
 export const getUserPortfolio = async () => {
     try {
@@ -11,7 +12,7 @@ export const getUserPortfolio = async () => {
         console.log(tokenPayload);
         const id = tokenPayload.userId;
 
-        const response = await fetch(`${BASE_URL}/users/${id}/portfolio`, {
+        const response = await fetch(`${DEAL_URL}/users/${id}/portfolio`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -39,7 +40,7 @@ export const getUserDeals = async () => {
         console.log(tokenPayload);
         const id = tokenPayload.userId;
 
-        const response = await fetch(`${BASE_URL}/users/${id}/deals`, {
+        const response = await fetch(`${DEAL_URL}/users/${id}/deals`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -61,7 +62,7 @@ export const getUserDeals = async () => {
 export const createDeal = async (dealData) => {
     try {
         const authToken = getAuthToken();
-        const response = await fetch(`${BASE_URL}/`, {
+        const response = await fetch(`${DEAL_URL}/`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${authToken}`,
