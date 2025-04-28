@@ -1,17 +1,8 @@
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
+import {BASE_URL} from "../utils/Constants";
 
-export const fetchCurrencies = async (currency = 'usd', ids = '', limit = 0) => {
+export const fetchCurrencies = async (currency = 'usd') => {
     try {
-        let url = `${BASE_URL}/currency?currency=${currency}`;
-
-        if (ids) {
-            url += `&ids=${ids}`;
-        }
-
-        if (limit > 0) {
-            url += `&limit=${limit}`;
-        }
-
+        const url = `${BASE_URL}/currency?currency=` + currency;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -30,4 +21,14 @@ export const createCurrencyLookup = (currencies) => {
         lookup[currency.id] = currency;
         return lookup;
     }, {});
+};
+
+export const formatCurrency = (amount, currencyCode = 'usd') => {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currencyCode.toUpperCase(),
+        currencyDisplay: 'symbol',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount);
 };

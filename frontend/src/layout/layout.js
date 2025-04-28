@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import { isAuthenticated, logout } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import ChatIcon from "../components/ChatIcon";
-import AIChat from "../components/AIChat";
+import { FaCommentAlt } from 'react-icons/fa';
+import AIChat from "../components/Chat/AIChat";
 
 function Layout() {
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ function Layout() {
 
             <>
                 <button onClick={toggleChat} className="chat-button">
-                    <ChatIcon />
+                    <FaCommentAlt />
                 </button>
 
                 <div className={`floating-chat-container ${isChatOpen ? 'open' : ''}`}>

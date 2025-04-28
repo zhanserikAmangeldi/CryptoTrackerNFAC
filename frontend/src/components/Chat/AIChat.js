@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getAuthToken } from '../services/authService';
-
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080/api/v1";
-const CHAT_URL = BASE_URL + "/chat"
+import sendMessageToAPI from "../../services/chatService";
 
 function AIChat() {
     const [messages, setMessages] = useState([]);
@@ -22,6 +19,7 @@ function AIChat() {
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
@@ -30,48 +28,19 @@ function AIChat() {
         setInput('');
         setIsLoading(true);
 
-        setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages, userMessage];
+        setMessages(prevMessages => [...prevMessages, userMessage]);
 
-            sendMessageToAPI(updatedMessages);
-
-            return updatedMessages;
-        });
-    };
-
-    const sendMessageToAPI = async (allMessages) => {
         try {
-            const authToken = getAuthToken();
-            if (!authToken) throw new Error('No auth token available');
-            console.log(authToken)
-            const response = await fetch(CHAT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
-                },
-                body: JSON.stringify({
-                    system_prompt: "You should help the user with questions connected with crypto currency and etc.",
-                    messages: allMessages
-                })
-            });
+            const data = await sendMessageToAPI([...messages, userMessage]);
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || `API responded with status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            setMessages((prevMessages) => [
+            setMessages(prevMessages => [
                 ...prevMessages,
-                { role: 'assistant', content: data.message }
+                {role: 'assistant', content: data.message}
             ]);
         } catch (error) {
-            console.error('Error calling chat API:', error);
-            setMessages((prevMessages) => [
+            setMessages(prevMessages => [
                 ...prevMessages,
-                { role: 'system', content: `Error: ${error.message}` }
+                {role: 'system', content: `Error: ${error.message}`}
             ]);
         } finally {
             setIsLoading(false);

@@ -1,5 +1,5 @@
-@import 'Layout.css';
-@import './Auth.css';
+@import 'layout/Layout.css';
+@import 'components/Auth/Auth.css';
 
 * {
     margin: 0;

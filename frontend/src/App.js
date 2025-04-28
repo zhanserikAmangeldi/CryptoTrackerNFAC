@@ -1,16 +1,16 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 import Home from './components/Home';
 import Layout from './layout/layout';
 import ProtectedRoute from './components/ProtectedRoute';
-import ChatPage from './components/ChatPage';
 import './App.css';
-import './Chat.css';
-import './Crypto.css';
-import Portfolio from "./components/Portfolio";
-import Transactions from "./components/Transaction";
+import './components/Chat/Chat.css';
+import './components/Crypto/Crypto.css';
+import Portfolio from "./components/Crypto/Portfolio";
+import Transactions from "./components/Crypto/Transactions";
+import AIChat from "./components/Chat/AIChat";
 
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
 
 
                     <Route element={<ProtectedRoute />}>
-                        <Route path="chat" element={<ChatPage />} />
+                        <Route path="chat" element={<AIChat />} />
                         <Route path="portfolio" element={<Portfolio />} />
                         <Route path="deals" element={<Transactions />} />
                     </Route>

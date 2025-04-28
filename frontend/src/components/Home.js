@@ -1,5 +1,5 @@
 import React from 'react';
-import CurrencyTable from "./CurrencyTable";
+import CurrencyTable from "./Crypto/CurrencyTable";
 
 function Home() {
     return (
